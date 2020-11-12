@@ -23,6 +23,18 @@ function membershiphistory_civicrm_xmlMenu(&$files) {
   _membershiphistory_civix_civicrm_xmlMenu($files);
 }
 
+function membershiphistory_civicrm_tabset($tabsetName, &$tabs, $context) {
+ if ($tabsetName == 'civicrm/contact/view') {
+   $url = CRM_Utils_System::url( 'civicrm/membership-history');
+   $tabs[] = array(
+     'id'    => 'membershipHistoryTab',
+     'url'   => $url,
+     'title' => 'Membership History',
+     'weight' => 300,
+   );
+ }
+}
+
 /**
  * Implements hook_civicrm_install().
  *
