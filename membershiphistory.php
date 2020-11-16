@@ -26,7 +26,7 @@ function membershiphistory_civicrm_xmlMenu(&$files) {
 function membershiphistory_civicrm_tabset($tabsetName, &$tabs, $context) {
  if ($tabsetName == 'civicrm/contact/view') {
    $contactId = $context['contact_id'];
-   $url = CRM_Utils_System::url( 'civicrm/membership-history',"reset=1&snippet=1&force=1&cid=$contactId");
+   $url = CRM_Utils_System::url( 'civicrm/membership-history',"reset=1&force=1&cid=$contactId");
    $tabs[] = array(
      'id'    => 'membershipHistoryTab',
      'url'   => $url,
