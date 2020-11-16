@@ -12,13 +12,20 @@ class CRM_Membershiphistory_Page_MembershipHistory extends CRM_Core_Page {
       'contact_id' => $id,
     ]);
 
-    $membership_status = civicrm_api3('MembershipStatus', 'get', [
-      'sequential' => 1,
-      'id' => $membership_result['values'][0]['status_id'],
-    ]);
+    foreach ($membership_result as $value) {
+      foreach ($value as $val) {
+        $membership_log[] = civicrm_api3('MembershipLog', 'get', [
+          'sequential' => 1,
+          'id'=>$val['id'],
+        ]);
+      }
+    }
 
-    $membership_result['values'][0]['status'] = $membership_status['values'][0]['label'];
-    $this->assign('membership_history', $membership_result['values']);
+    foreach ($membership_log as $key => $value) {
+      $membershipDetails[$value['id']] = $value['values'][0];
+    }
+
+    $this->assign('membership_history', $membershipDetails);
     parent::run();
   }
 }

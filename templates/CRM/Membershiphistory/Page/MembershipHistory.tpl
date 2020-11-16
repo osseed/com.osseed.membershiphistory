@@ -1,6 +1,7 @@
 <script>
 var nextPeriodMembershipTypes = {$nextPeriodMembershipTypes|@json_encode};
 </script>
+{debug}
 <div id="membership-history">
   <h3>{ts}Membership History{/ts}</h3>
   <table class="selector row-highlight" id="nextPeriodLineItems">
@@ -14,11 +15,11 @@ var nextPeriodMembershipTypes = {$nextPeriodMembershipTypes|@json_encode};
     </tr>
     {foreach from=$membership_history item="membership_history"}
     <tr>
-      <td>{$membership_history.membership_name}</td>
+      <td>{$membership_history.membership_type_id}</td>
       <td>{$membership_history.join_date}</td>
       <td>{$membership_history.start_date}</td>
       <td>{$membership_history.end_date}</td>
-      <td>{$membership_history.status}</td>
+      <td>{$membership_history.status_id}</td>
     </tr>
     {/foreach}
     </tbody>
