@@ -12,17 +12,28 @@ class CRM_Membershiphistory_Page_MembershipHistory extends CRM_Core_Page {
       'contact_id' => $id,
     ]);
 
-    foreach ($membership_result as $value) {
-      foreach ($value as $val) {
-        $membership_log[] = civicrm_api3('MembershipLog', 'get', [
-          'sequential' => 1,
-          'id'=>$val['id'],
-        ]);
+    foreach ($membership_result as $values) {
+      if (is_array($values) || is_object($values)){
+        foreach ($values as $val) {
+          $membership_log[] = civicrm_api3('MembershipLog', 'get', [
+            'sequential' => 1,
+            'membership_id' => $val['id'],
+          ]);
+        }
       }
     }
 
+    $membershipType = CRM_Member_PseudoConstant::membershipType();
+    $membershipStatus= CRM_Member_PseudoConstant::membershipStatus();
+
     foreach ($membership_log as $key => $value) {
-      $membershipDetails[$value['id']] = $value['values'][0];
+      foreach ($value['values'] as $membershipkey => $membershipval) {
+        // $membershipDetails[$membershipval['id']] = $membershipval;
+        // $membershipDetails[$membershipval['status_id']] = $membershipStatus[$membershipval['status_id']];
+        $membershipval['membership_type_id'] = $membershipType[$membershipval['membership_type_id']];
+        $membershipval['status_id'] = $membershipStatus[$membershipval['status_id']];
+        $membershipDetails[$membershipkey[$membershipval['id']['membership_type_id']['status_id']]] = $membershipval;
+      }
     }
 
     $this->assign('membership_history', $membershipDetails);
