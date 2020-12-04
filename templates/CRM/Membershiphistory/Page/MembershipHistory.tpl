@@ -15,9 +15,9 @@ var nextPeriodMembershipTypes = {$nextPeriodMembershipTypes|@json_encode};
     {foreach from=$membership_history item="membership_history"}
     <tr>
       <td>{$membership_history.membership_type_id}</td>
-      <td>{$membership_history.modified_date}</td>
-      <td>{$membership_history.start_date}</td>
-      <td>{$membership_history.end_date}</td>
+      <td>{$membership_history.modified_date|crmDate}</td>
+      <td>{$membership_history.start_date|crmDate}</td>
+      <td>{$membership_history.end_date|crmDate}</td>
       <td>{$membership_history.status_id}</td>
     </tr>
     {/foreach}
