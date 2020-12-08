@@ -12,6 +12,7 @@ class CRM_Membershiphistory_Page_MembershipHistory extends CRM_Core_Page {
       'contact_id' => $id,
     ]);
 
+    $membershipDetails = array();
     if(!empty($membership_result['values'])){
       $membershipType = CRM_Member_PseudoConstant::membershipType();
       $membershipStatus= CRM_Member_PseudoConstant::membershipStatus();
@@ -24,9 +25,9 @@ class CRM_Membershiphistory_Page_MembershipHistory extends CRM_Core_Page {
           foreach ($membership_log['values'] as $logvalues) {
             $membershipval['membership_type_id'] = $membershipType[$logvalues['membership_type_id']];
             $membershipval['status'] = $membershipStatus[$logvalues['status_id']];
-            $membershipval['modified_date'] = $logvalues['modified_date'];
-            $membershipval['start_date'] = $logvalues['start_date'];
-            $membershipval['end_date'] = $logvalues['end_date'];
+            $membershipval['modified_date'] = isset($logvalues['modified_date']) ? $logvalues['modified_date'] : null;
+            $membershipval['start_date'] = isset($logvalues['start_date']) ? $logvalues['start_date'] :null;
+            $membershipval['end_date'] = isset($logvalues['end_date']) ? $logvalues['end_date'] : null;
             $membershipDetails[$logvalues['id']] = $membershipval;
           }
         }
