@@ -12,27 +12,24 @@ class CRM_Membershiphistory_Page_MembershipHistory extends CRM_Core_Page {
       'contact_id' => $id,
     ]);
 
-    foreach ($membership_result as $values) {
-      if (is_array($values) || is_object($values)){
-        foreach ($values as $val) {
-          $membership_log[] = civicrm_api3('MembershipLog', 'get', [
-            'sequential' => 1,
-            'membership_id' => $val['id'],
-          ]);
+    if(!empty($membership_result['values'])){
+      $membershipType = CRM_Member_PseudoConstant::membershipType();
+      $membershipStatus= CRM_Member_PseudoConstant::membershipStatus();
+      foreach ($membership_result['values'] as $values) {
+        $membership_log = civicrm_api3('MembershipLog', 'get', [
+          'sequential' => 1,
+          'membership_id' => $values['id'],
+        ]);
+        if(!empty($membership_log['values'])) {
+          foreach ($membership_log['values'] as $logvalues) {
+            $membershipval['membership_type_id'] = $membershipType[$logvalues['membership_type_id']];
+            $membershipval['status'] = $membershipStatus[$logvalues['status_id']];
+            $membershipval['modified_date'] = $logvalues['modified_date'];
+            $membershipval['start_date'] = $logvalues['start_date'];
+            $membershipval['end_date'] = $logvalues['end_date'];
+            $membershipDetails[$logvalues['id']] = $membershipval;
+          }
         }
-      }
-    }
-
-    $membershipType = CRM_Member_PseudoConstant::membershipType();
-    $membershipStatus= CRM_Member_PseudoConstant::membershipStatus();
-
-    foreach ($membership_log as $key => $value) {
-      foreach ($value['values'] as $membershipkey => $membershipval) {
-        // $membershipDetails[$membershipval['id']] = $membershipval;
-        // $membershipDetails[$membershipval['status_id']] = $membershipStatus[$membershipval['status_id']];
-        $membershipval['membership_type_id'] = $membershipType[$membershipval['membership_type_id']];
-        $membershipval['status_id'] = $membershipStatus[$membershipval['status_id']];
-        $membershipDetails[$membershipkey[$membershipval['id']['membership_type_id']['status_id']]] = $membershipval;
       }
     }
 
