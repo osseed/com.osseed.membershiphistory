@@ -23,6 +23,7 @@ class CRM_Membershiphistory_Page_MembershipHistory extends CRM_Core_Page {
         ]);
         if(!empty($membership_log['values'])) {
           foreach ($membership_log['values'] as $logvalues) {
+            $membershipval['membership_id'] = $logvalues['membership_id'];
             $membershipval['membership_type_id'] = $membershipType[$logvalues['membership_type_id']];
             $membershipval['status'] = $membershipStatus[$logvalues['status_id']];
             $membershipval['modified_date'] = isset($logvalues['modified_date']) ? $logvalues['modified_date'] : null;
